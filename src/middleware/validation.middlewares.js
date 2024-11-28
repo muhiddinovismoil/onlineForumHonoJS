@@ -1,11 +1,11 @@
-export const validateSchema = (schema) => (req, res, next) => {
+export const validateSchema = (schema) => async (ctx, next) => {
     try {
-        const { error } = schema.validate(req.body)
+        const { error } = schema.validate(await ctx.req.json())
         if (error) {
-            throw new Error({ error: error.details[0].message })
+            return ctx.json({ error: error.details[0].message }, 400)
         }
-        next()
+        return await next()
     } catch (error) {
-        next(error)
+        return ctx.json({ error: error.message }, 500)
     }
 }

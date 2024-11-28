@@ -2,14 +2,18 @@ import { registerUser, loginUser, getProfileByEmail } from '../service/index.js'
 import { logger } from '../utils/logger.js'
 export const getProfileByEmailCon = async (ctx) => {
     try {
-        logger.info(`Routes: /api/v1/ METHOD: GET`)
-        const data = await getProfileByEmail(ctx.req.param('email'))
+        logger.info(
+            `Routes: /api/v1/${await ctx.req.param('email')} METHOD: GET`,
+        )
+        const data = await getProfileByEmail(await ctx.req.param('email'))
         if (!data) {
             return ctx.json({ msg: 'User not found' }, 404)
         }
         return ctx.json({ user: data }, 200)
     } catch (error) {
-        logger.info(`Routes: /api/v1/ METHOD: GET,Error: ${error.message}`)
+        logger.info(
+            `Routes: /api/v1/${await ctx.req.param('email')} METHOD: GET,Error: ${error.message}`,
+        )
         return ctx.json({ error: error.message }, 500)
     }
 }
@@ -32,7 +36,7 @@ export const registerUserCon = async (ctx) => {
 export const loginUserCon = async (ctx) => {
     try {
         logger.info(`Routes: /api/v1/login METHOD: POST`)
-        const data = await loginUser(ctx.req.json())
+        const data = await loginUser(await ctx.req.json())
         if (!data) {
             return ctx.json({ msg: 'You are not logged in successfully' })
         }
