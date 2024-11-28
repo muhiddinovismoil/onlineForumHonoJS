@@ -36,8 +36,7 @@ export const registerUser = async (body) => {
         } catch (mailError) {
             throw new Error(`Failed to send OTP to email: ${mailError.message}`)
         }
-        const hashedPassword = hashPassword(body.password)
-        console.log(hashedPassword)
+        const hashedPassword = await hashPassword(body.password)
         const [newUser] = await connectDB('users')
             .insert({
                 username: body.username,
@@ -58,7 +57,7 @@ export const registerUser = async (body) => {
 }
 export const loginUser = async (user) => {
     try {
-        const currentUser = await getUserByEmailService(user.email)
+        const currentUser = await getProfileByEmail(user.email)
         if (!currentUser) {
             throw new Error('User not found')
         }
