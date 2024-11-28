@@ -10,9 +10,20 @@ export const createTables = async () => {
                 table.string('password').notNullable()
                 table.timestamp('created_at').defaultTo(db.fn.now())
                 table.timestamp('updated_at').defaultTo(db.fn.now())
-                table.timestamp('deleted_at').notNullable()
+                table.timestamp('deleted_at')
             })
             logger.info('Users table created.')
+        }
+        if (!(await db.schema.hasTable('otp_codes'))) {
+            await db.schema.createTable('otp_codes', (table) => {
+                table.increments('id')
+                table.string('otp_code').notNullable()
+                table
+                    .integer('user_id')
+                    .unsigned()
+                    .references('user_id')
+                    .inTable('users')
+            })
         }
         if (!(await db.schema.hasTable('posts'))) {
             await db.schema.createTable('posts', (table) => {
@@ -33,8 +44,9 @@ export const createTables = async () => {
                     .notNullable()
                 table.timestamp('created_at').defaultTo(db.fn.now())
                 table.timestamp('updated_at').defaultTo(db.fn.now())
-                table.timestamp('deleted_at').notNullable()
+                table.timestamp('deleted_at')
             })
+            logger.info(`Posts table created.`)
         }
     } catch (error) {
         logger.error(error.message)

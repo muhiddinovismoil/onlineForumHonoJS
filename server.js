@@ -9,9 +9,12 @@ app.route('/api/v1/auth', authRouter)
 app.get('/api/v1/setup', async (ctx) => {
     try {
         await createTables()
-        ctx.json({
-            msg: 'Tables Created',
-        })
+        return ctx.json(
+            {
+                msg: 'Tables Created',
+            },
+            200,
+        )
     } catch (error) {
         logger.error(`Error ON CREATING TABLES: ${error.message}`)
     }
