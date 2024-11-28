@@ -1,5 +1,10 @@
-import { Hono } from "hono";
-export const authRouter = new Hono();
-// authRouter.post("/");
-// authRouter.post("/");
-authRouter.get("/");
+import { Hono } from 'hono'
+import {
+    registerUserCon,
+    loginUserCon,
+    getProfileByEmailCon,
+} from '../controllers/index.js'
+export const authRouter = new Hono()
+authRouter.post('/register', registerUserCon)
+authRouter.post('/login', loginUserCon)
+authRouter.get('/profile/:email', getProfileByEmailCon)
