@@ -9,7 +9,8 @@
         "format": "prettier --write .",
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node server.js",
-        "start:dev": "node --watch server.js"
+        "start:dev": "node --watch server.js",
+        "dev": "nodemon server.js"
     },
     "keywords": [],
     "author": "",
@@ -20,11 +21,11 @@
         "bcrypt": "^5.1.1",
         "dotenv": "^16.4.5",
         "hono": "^4.6.12",
-        "joi": "^17.13.3",
         "jsonwebtoken": "^9.0.2",
         "knex": "^3.1.0",
         "nodemailer": "^6.9.16",
         "otp-generator": "^4.0.1",
+        "pg": "^8.13.1",
         "winston": "^3.17.0"
     },
     "devDependencies": {

@@ -1,2 +1,6 @@
 export * from './posts.validation.js'
 export * from './user.validation.js'
+export * from './category.validation.js'
+export * from './comments.validation.js'
+export * from './post.tages.js'
+export * from './tags.validation.js'
