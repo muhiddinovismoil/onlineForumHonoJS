@@ -11,7 +11,7 @@ export const createTables = async () => {
                 table.string('password').notNullable()
                 table.timestamp('created_at').defaultTo(db.fn.now())
                 table.timestamp('updated_at').defaultTo(db.fn.now())
-                table.timestamp('deleted_at').notNullable()
+                table.timestamp('deleted_at')
             })
             logger.info('Users table created.')
         }
@@ -29,7 +29,7 @@ export const createTables = async () => {
         // Tags
         if (!(await db.schema.hasTable('tags'))) {
             await db.schema.createTable('tags', (table) => {
-                table.increments('tags_id').primary()
+                table.increments('tag_id').primary()
                 table.string('name').notNullable()
                 table.timestamp('created_at').defaultTo(db.fn.now())
                 table.timestamp('updated_at').defaultTo(db.fn.now())
@@ -37,7 +37,19 @@ export const createTables = async () => {
             })
             logger.info('Tags table created.')
         }
-        //Posts
+        //otp_codes
+        if (!(await db.schema.hasTable('otp_codes'))) {
+            await db.schema.createTable('otp_codes', (table) => {
+                table.increments('id')
+                table.string('otp_code').notNullable()
+                table
+                    .integer('user_id')
+                    .unsigned()
+                    .references('user_id')
+                    .inTable('users')
+            })
+        }
+        //posts
         if (!(await db.schema.hasTable('posts'))) {
             await db.schema.createTable('posts', (table) => {
                 table.increments('post_id').primary()
@@ -57,8 +69,9 @@ export const createTables = async () => {
                     .notNullable()
                 table.timestamp('created_at').defaultTo(db.fn.now())
                 table.timestamp('updated_at').defaultTo(db.fn.now())
-                table.timestamp('deleted_at').notNullable()
+                table.timestamp('deleted_at')
             })
+            logger.info(`Posts table created.`)
         }
         // Comments
         if (!(await db.schema.hasTable('comments'))) {
@@ -71,9 +84,9 @@ export const createTables = async () => {
                     .inTable('users')
                     .notNullable()
                 table
-                    .integer('posts_id')
+                    .integer('post_id')
                     .unsigned()
-                    .references('posts_id')
+                    .references('post_id')
                     .inTable('Posts')
                     .notNullable()
                 table.string('title').notNullable()
@@ -94,10 +107,10 @@ export const createTables = async () => {
                     .inTable('posts')
                     .notNullable()
                 table
-                    .integer('posts_id')
+                    .integer('post_id')
                     .unsigned()
-                    .references('posts_id')
-                    .inTable('Posts')
+                    .references('post_id')
+                    .inTable('posts')
                     .notNullable()
                 table.timestamp('created_at').defaultTo(db.fn.now())
             })

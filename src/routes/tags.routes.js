@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { Hono } from 'hono'
 import {
     createTagsController,
     deleteTagsController,
@@ -7,7 +7,7 @@ import {
     updateTagsController,
 } from '../controllers/index.js'
 
-export const tagsRouter = Router()
+export const tagsRouter = new Hono()
 
 tagsRouter.get('/all', getAllTagsController)
 tagsRouter.get('/:id', getByIdTagsController)

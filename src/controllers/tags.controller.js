@@ -38,6 +38,7 @@ export const createTagsController = async (ctx) => {
     try {
         logger.info('Router, /api/v1/tags/create METHOD:POST')
         const currentTags = await createTagsService(ctx.req.json())
+        console.log(ctx.req.json());
         if (!currentTags) {
             return ctx.json({ msg: 'Malumot topilmadi...' }, 404)
         }
