@@ -14,8 +14,11 @@ export const getAllTagsService = async () => {
 
 export const getByIdTagsService = async (id) => {
     try {
-        const result = await connectDB.select('*').from('tags').where('id', id)
-        if (!result) {
+        const result = await connectDB
+            .select('*')
+            .from('tags')
+            .where('tag_id', id)
+        if (!result[0]) {
             throw new Error('Error...')
         }
         return result[0]
@@ -26,45 +29,43 @@ export const getByIdTagsService = async (id) => {
 
 export const createTagsService = async (data) => {
     try {
-        const result = await connectDB('tags')
-            .insert({
-                name: data.name,
-            })
-            .returning('*')
-        if (!result) {
+        const result = await connectDB('tags').insert(data).returning('*')
+        if (!result[0]) {
             throw new Error('Error...')
         }
-        return result
+        return result[0]
     } catch (error) {
-        throw new Error(error)
+        throw new Error(error.message)
     }
 }
 
 export const updateTagsService = async (id, data) => {
     try {
         const result = await connectDB('tags')
-            .where('id', id)
-            .update(data.name)
+            .where('tag_id', id)
+            .update({ name: data.name })
             .returning('*')
-        if (!result) {
-            throw new Error('Error...')
+
+        if (!result[0]) {
+            throw new Error(`ID ${id} not found`)
         }
-        return result
+        return result[0]
     } catch (error) {
-        throw new Error(error)
+        throw new Error('erroer', error.message)
     }
 }
 
 export const deleteTagsService = async (id) => {
     try {
         const result = await connectDB('tags')
-            .where('id', id)
+            .where('tag_id', id)
             .del()
             .returning('*')
-        if (!result) {
+        if (!result[0]) {
             throw new Error('Error...')
         }
+        return result[0]
     } catch (error) {
-        throw new Error(error)
+        throw new Error(error.message)
     }
 }

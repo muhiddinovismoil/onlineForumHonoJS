@@ -23,7 +23,7 @@ export const getAllTagsController = async (ctx) => {
 export const getByIdTagsController = async (ctx) => {
     try {
         logger.info('Router, /api/v1/tags/:id METHOD:GET')
-        const currentTags = await getByIdTagsService(ctx.req.param('id'))
+        const currentTags = await getByIdTagsService(await ctx.req.param('id'))
         if (!currentTags) {
             return ctx.json({ msg: 'Malumot topilmadi...' }, 404)
         }
@@ -36,26 +36,27 @@ export const getByIdTagsController = async (ctx) => {
 
 export const createTagsController = async (ctx) => {
     try {
-        logger.info('Router, /api/v1/tags/create METHOD:POST')
-        const currentTags = await createTagsService(ctx.req.json())
-        console.log(ctx.req.json());
+        logger.info(`Routes: /api/v1/posts/create METHOD: POST`)
+        const currentTags = await createTagsService(await ctx.req.json())
         if (!currentTags) {
             return ctx.json({ msg: 'Malumot topilmadi...' }, 404)
         }
-        return ctx.json({ data: currentTags }, 201)
+        return ctx.json({
+            msg: 'Post Created',
+            data: currentTags,
+        })
     } catch (error) {
         logger.error('Router, /api/v1/tags/create METHOD:POST')
-        throw new Error(error)
+        return ctx.json(error.message)
     }
 }
 
 export const updateTagsController = async (ctx) => {
     try {
+        const id = await ctx.req.param('id')
+        const body = await ctx.req.json('name')
         logger.info('Router, /api/v1/tags/update/:id METHOD:PUT')
-        const currentTags = await updateTagsService(
-            ctx.req.param('id'),
-            ctx.req.json(),
-        )
+        const currentTags = await updateTagsService(id, { name: body.name })
         if (!currentTags) {
             return ctx.json({ msg: 'Malumot topilmadi...' }, 404)
         }
@@ -69,7 +70,7 @@ export const updateTagsController = async (ctx) => {
 export const deleteTagsController = async (ctx) => {
     try {
         logger.info('Router, /api/v1/tags/all METHOD:DELETE')
-        const currentTags = await deleteTagsService(ctx.req.param('id'))
+        const currentTags = await deleteTagsService(await ctx.req.param('id'))
         if (!currentTags) {
             return ctx.json({ msg: 'Malumot topilmadi...' }, 404)
         }

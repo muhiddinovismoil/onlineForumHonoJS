@@ -1,13 +1,19 @@
 import { Hono } from 'hono'
 import { boot } from './src/config/index.js'
 import { serve } from '@hono/node-server'
-import { authRouter, postsRouter } from './src/routes/index.js'
+import {
+    authRouter,
+    categoriesRouter,
+    postsRouter,
+    tagsRouter,
+} from './src/routes/index.js'
 import { logger } from './src/utils/index.js'
 import { createTables } from './src/database/index.js'
 const app = new Hono()
 app.route('/api/v1/auth', authRouter)
 app.route('/api/v1/tags', tagsRouter)
 app.route('/api/v1/posts', postsRouter)
+app.route('/api/v1/categories', categoriesRouter)
 app.get('/api/v1/setup', async (ctx) => {
     try {
         await createTables()
