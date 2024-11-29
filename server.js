@@ -5,6 +5,7 @@ import {
     authRouter,
     categoriesRouter,
     commentRouter,
+    postTagesRouter,
     postsRouter,
     tagsRouter,
 } from './src/routes/index.js'
@@ -16,6 +17,7 @@ app.route('/api/v1/tags', tagsRouter)
 app.route('/api/v1/posts', postsRouter)
 app.route('/api/v1/categories', categoriesRouter)
 app.route('/api/v1/comment', commentRouter)
+app.route('/api/v1/post/tages', postTagesRouter)
 
 app.get('/api/v1/setup', async (ctx) => {
     try {

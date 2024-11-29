@@ -5,3 +5,4 @@ export * from "./posts.routes.js";
 export * from "./comments.routes.js";
 export * from './auth.routes.js'
 export * from './posts.routes.js'
+export * from './post.tages.routes.js'
